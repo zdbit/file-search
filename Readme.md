@@ -12,11 +12,13 @@
 
 # 调整部分
 
+```change
 1.取消了全文检索，时间太久了，全盘文件过多，全文检索硬盘扛不住造。
 2.因原来的业务逻辑中有文件内容识别，所以增加了自动创建一个默认内容并加载的方法。
 3.界面显示由默认10条改为30条，提供检索效率。
 4.检索结果直接提供NAS路径，方便双击用资源管理器或浏览器打开，因为原始的/fsearch路径对于我们使用者没什么用。
 5.文字配色微调。
+```
 
 # 编译打包
 
@@ -72,6 +74,7 @@ PASSWORD 默认为123456，登录的密码，必须修改
 
 ## docker compose
 
+```docker
 services:
   walkerman:
     image: registry.cn-beijing.aliyuncs.com/zdbit/wk_fsearch:latest
@@ -88,7 +91,7 @@ services:
     ports:
       - "8012:8012"
     restart: unless-stopped
-
+```
 
 ## 访问方法
 
