@@ -1,0 +1,15 @@
+Scanner文件：https://github.com/zdbit/file-search/blob/main/src/main/java/org/ayound/nas/file/search/Scanner.java
+
+开始编辑：
+
+else if (entry.isDirectory() && !entry.getName().startsWith("@")) {
+    fileCount += this.scanDirectory(entry, observedContentTypes, runnable);
+}
+
+之前是：
+
+else if (entry.isDirectory()) {
+    fileCount += this.scanDirectory(entry, observedContentTypes, runnable);
+}
+
+作用是忽略@开头的文件夹，这类一般是系统文件，没有作用而且耗时非常久
