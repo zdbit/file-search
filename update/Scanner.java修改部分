@@ -26,3 +26,7 @@ else if (entry.isDirectory()) {
 ....中间忽略部分，下边的作用是赋值给正文wakerman，不能让正文为空。
 	bodyContent="walkerman";
 	var7 = bodyContent;
+
+还有
+            //log.info("File is no change [" + file.getAbsolutePath() + "]");//不记录了，会产生大量日志
+            log.info("indexing");
