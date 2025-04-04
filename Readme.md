@@ -1,22 +1,22 @@
 # 说明
 
-我有大量的文档需要全文检索，放在nas上，找遍了软件没有找到合适的，譬如某些软件用pg或Mysql存储文档内容，文档数量上几万的时候，在nas的机器上全文检索就没法打开。
+基于原项目ayoundzw/file-search进行二开，开源地址：[GitHub - ayoundzw/file-search: 文件全文检索工具](https://github.com/ayoundzw/file-search)
 
-我又需要文件预览功能，不想把文件发到公网上，用WPS或微软的公有云服务预览，我只要自己预览就可以了。
+使程序更符合NAS增强搜索的使用场景，
 
-所以编写了这个软件，功能非常简单，就是建立全文索引，搜索文件和预览文件。
+尤其是对绿联云效果非常明显，绿联的搜索真的是又慢又卡又不全，一言难尽！
 
-在NAS上基本上可以做到全文检索秒搜文件。
+请替换release使用，代码部分稍候更新
 
-索引是采用Lucene，预览采用kkfilepreview。
+目前无法解决搜索结果中包含路径但是路径中不包含文件名的问题，如果有人可以解决，最好不过。
 
-可以使用maven编译，基于springboot，单jar运行。
+# 调整部分
 
-完全开源，基于apache协议，可自行修改，开源地址：[GitHub - ayoundzw/file-search: 文件全文检索工具](https://github.com/ayoundzw/file-search)
-
-因为是只花了几天时间手搓了一个程序，请不要吐槽代码质量问题，如有问题，请自行fork修改
-
-在nas中只能使用docker。
+1.取消了全文检索，时间太久了，全盘文件过多，全文检索硬盘扛不住造。
+2.因原来的业务逻辑中有文件内容识别，所以增加了自动创建一个默认内容并加载的方法。
+3.界面显示由默认10条改为30条，提供检索效率。
+4.检索结果直接提供NAS路径，方便双击用资源管理器或浏览器打开，因为原始的/fsearch路径对于我们使用者没什么用。
+5.文字配色微调。
 
 # 编译打包
 
@@ -70,6 +70,24 @@ PASSWORD 默认为123456，登录的密码，必须修改
 
 启动docker
 
+## docker compose
+
+services:
+  walkerman:
+    image: registry.cn-beijing.aliyuncs.com/zdbit/wk_fsearch:latest
+    container_name: wk_fsearch
+    environment:
+      - USER_NAME=admin
+      - PASSWORD=123456
+    volumes:
+      - /volume1:/fsearch/files/volume1
+      - /volume2:/fsearch/files/volume2
+      - /volume2/docker/wk_fsearch/cache:/fsearch/cache
+      - /volume2/docker/wk_fsearch/data:/fsearch/data
+    
+    ports:
+      - "8012:8012"
+    restart: unless-stopped
 
 
 ## 访问方法
