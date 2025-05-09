@@ -284,7 +284,7 @@ function updateResultList(response) {
             let iframe = '<iframe id="fileIframe" src="' + href + '" style="width:100%;height:100%;border:0;min-height:450px"></iframe>'
             if (/\.(jpg|jpeg|png|gif|bmp|webp|svg|ico)(\?.*)?$/i.test(durl)) {
                 // 是图片 URL 则执行的操作
-                iframe="当前文件为："+'<img src="' + durl + '" width="90%">'+iframe; //目的是后续通过img src标签展示文件
+                iframe="<!--当前文件为：-->"+'<div align="center"></div><img src="' + durl + '" width="70%"></div>'; //目的是后续通过img src标签展示文件
             }
             
             $('#pills-profile').html(iframe);
