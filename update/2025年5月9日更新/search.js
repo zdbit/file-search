@@ -271,9 +271,16 @@ function updateResultList(response) {
                 type: "GET",
                 success: function(response) {
                     var json = JSON.parse(response);
-                    $('#fileContent').text("因执行效率原因，此处已经关闭全文检索\r\n"+json.data.content);
+                    //$('#fileContent').text("因执行效率原因，此处已经关闭全文检索\r\n"+json.data.content);
+
+                    if (/\.(jpg|jpeg|png|gif|bmp|webp|svg|ico)(\?.*)?$/i.test(durl)) {                                                
+                        $('#pills-home').html('<div align="center"><img src="' + durl + '" width="70%"></div>');// 是图片 URL 则执行的操作
+                    }else{
+                        $('#pills-home').html("<textarea readonly id=\"fileContent\"\n" +
+                            "style=\"width: 100%; height: 100%; min-height: 450px\">"+"因执行效率原因，此处已经关闭全文检索\r\n"+json.data.content+"</textarea>");
+                    }
                 },
-                error: function(error) {
+                error: function (error) {
                     console.log(error);
 
                 }
