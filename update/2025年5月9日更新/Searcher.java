@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package org.ayound.nas.file.search;
 
 import java.io.IOException;
@@ -128,7 +123,7 @@ public class Searcher {
                             Term term = new Term("name", str);
                             WildcardQuery termQuery = new WildcardQuery(term);
                             String fieldName = term.field();
-                            log.info("需要查询字段的标题：Field Name: " + fieldName + "，检索词str为" + str);
+                            log.info("需要查询字段的标题（查询结果只包含文件名）：Field Name: " + fieldName + "，检索词str为" + str);
                             builder.add(termQuery, occur);
                         }
                     }
@@ -159,7 +154,35 @@ public class Searcher {
 
                     var29 = builder.build();
                 }
-            } else if ("f1".equals(type)) {
+            } else if ("f3".equals(type)) {
+                String[] arrs = text.split(" ");
+                BooleanQuery.Builder builder = new BooleanQuery.Builder();
+                if (arrs.length <= 0) {
+                    var29 = new MatchAllDocsQuery();
+                } else {
+                    for(String str : arrs) {
+                        if (str.length() > 0) {
+                            BooleanClause.Occur occur = Occur.MUST;
+                            if (str.startsWith("-")) {
+                                occur = Occur.MUST_NOT;
+                                str = str.replaceFirst("-", "");
+                            } else {
+                                keys.add(str);
+                            }
+
+                            str = "*" + str + "*";
+                            Term term = new Term("path", str);
+                            WildcardQuery termQuery = new WildcardQuery(term);
+                            String fieldName = term.field();
+                            log.info("需要查询字段的标题（查询结果也包含路径）：Field Name: " + fieldName + "，检索词str为" + str);
+                            builder.add(termQuery, occur);
+                        }
+                    }
+
+                    var29 = builder.build();
+                }
+                
+            }else if ("f1".equals(type)) {
                 TokenStream stream = IndexService.getInstance().getAnalyzer().tokenStream("path", text);
                 List<String> arrs = doToken(stream);
                 if (arrs.size() <= 0) {
